@@ -54,3 +54,8 @@ class Photo(MethodView):
         path = os.path('files', f'{uuid.uuid4()}.{extantion}')
         image.save(path)
         return path
+
+
+photo_view = Photo.as_view('photo')
+app.add_url_rule('/photo/<string:id>', view_func=photo_view, methods=['GET'])
+app.add_url_rule('/photo/', view_func=photo_view, methods=['POST'])
