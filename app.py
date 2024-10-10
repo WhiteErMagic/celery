@@ -38,12 +38,12 @@ class Photo(MethodView):
         return jsonify({'status': task.status, 'result': task.result})
 
 
-    def get(self, file):
-        return jsonify({'file': path})
+    def get(self, name_file):
+        return jsonify({'file': os.path('files', f'{name_file}')})
 
     def post(self):
-        image_path = self.save_image(field)
-        task = task_upscale(image_path)
+        image_path = self.save_image(('image_1'))
+        task = task_upscale(*image_path)
         return jsonify(
             {'task_id': task.id}
         )
