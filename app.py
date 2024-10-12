@@ -30,16 +30,16 @@ celery.Task = ContextTask
 def task_upscale():
     task1 = task_upscale()
 
+@flask_app.route('/download/<string:name>')
+def download_file(name):
+    return jsonify({'file': os.path('files', f'{name}')})
+
 
 class Photo(MethodView):
 
     def get(self, task_id):
         task = AsyncResult(task_id, app=celery)
         return jsonify({'status': task.status, 'result': task.result})
-
-
-    def get(self, name_file):
-        return jsonify({'file': os.path('files', f'{name_file}')})
 
     def post(self):
         image_path = self.save_image(('image_1'))
@@ -57,5 +57,6 @@ class Photo(MethodView):
 
 
 photo_view = Photo.as_view('photo')
+app.add_url_rule('/download/<string:name>', view_func=photo_view, methods=['GET'])
 app.add_url_rule('/photo/<string:id>', view_func=photo_view, methods=['GET'])
 app.add_url_rule('/photo/', view_func=photo_view, methods=['POST'])
