@@ -30,7 +30,8 @@ celery.Task = ContextTask
 def task_upscale():
     task1 = task_upscale()
 
-@flask_app.route('/download/<string:name>')
+
+@app.route('/download/<string:name>')
 def download_file(name):
     return jsonify({'file': os.path('files', f'{name}')})
 
