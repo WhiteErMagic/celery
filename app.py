@@ -43,7 +43,9 @@ class Photo(MethodView):
         return jsonify({'status': task.status, 'result': task.result})
 
     def post(self):
-        image_path = self.save_image(('image_1'))
+        image_path = ('image_1')
+        print(image_path)
+        image_path = self.save_image(image_path)
         task = task_upscale(*image_path)
         return jsonify(
             {'task_id': task.id}
@@ -61,3 +63,7 @@ photo_view = Photo.as_view('photo')
 app.add_url_rule('/download/<string:name>', view_func=photo_view, methods=['GET'])
 app.add_url_rule('/photo/<string:id>', view_func=photo_view, methods=['GET'])
 app.add_url_rule('/photo/', view_func=photo_view, methods=['POST'])
+
+
+if __name__ == '__main__':
+    app.run()
